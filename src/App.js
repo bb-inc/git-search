@@ -1,25 +1,25 @@
-import logo from './logo.svg';
-import './App.css';
+import { Route, Routes } from "react-router-dom";
+import React, { Suspense } from 'react';
+import { Layout } from "./components/Layout";
+
+const MainComponent = React.lazy(() => import("./Pages/Main/Main")); 
+const ReposPageComponent = React.lazy(() => import ("./Pages/ReposInfo/ReposInfo"));
+
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+  return (   
+    <div className='container'>
+      <Suspense fallback={<h2> loading ... </h2>}>
+      <Routes>
+        <Route path='/' element={<Layout />}>
+          <Route index element={<MainComponent />} />
+          <Route path=':repos/:user' element={<ReposPageComponent />} />
+        </Route>
+      </Routes>
+      </Suspense>
     </div>
   );
 }
 
 export default App;
+
